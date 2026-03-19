@@ -35,12 +35,16 @@ function buildEmbed(originalMessage, interaction) {
   return embed;
 }
 
-function buildRow(channelId, messageId) {
+function buildRow(channelId, messageId, messageUrl) {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId(`plusone:${channelId}:${messageId}`)
       .setLabel("+1")
       .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setLabel("Jump to original")
+      .setStyle(ButtonStyle.Link)
+      .setURL(messageUrl),
   );
 }
 
@@ -66,7 +70,7 @@ client.on("interactionCreate", async (interaction) => {
 
     await interaction.reply({
       embeds: [buildEmbed(message, interaction)],
-      components: [buildRow(message.channelId, message.id)],
+      components: [buildRow(message.channelId, message.id, message.url)],
     });
     return;
   }
@@ -101,7 +105,7 @@ client.on("interactionCreate", async (interaction) => {
 
     await interaction.reply({
       embeds: [buildEmbed(originalMessage, interaction)],
-      components: [buildRow(channelId, messageId)],
+      components: [buildRow(channelId, messageId, originalMessage.url)],
     });
   }
 });
