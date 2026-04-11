@@ -1,0 +1,8 @@
+app = "discord-plusone"
+primary_region = "cdg"
+
+[build]
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

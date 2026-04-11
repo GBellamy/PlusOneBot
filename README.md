@@ -91,17 +91,32 @@ The bot is now online. Right-click any message in your server → **Apps → +1*
 
 ---
 
-## Hosting on Render
+## Hosting on Fly.io (free, no sleep)
 
-To keep the bot running 24/7 without your machine:
+Fly.io offers a permanent free tier (no credit card required for small apps) with no sleep — ideal for a Discord bot.
 
-1. Push the project to GitHub.
-2. Go to [render.com](https://render.com) → **New → Blueprint** — Render will detect `render.yaml` automatically.  
-   Alternatively: **New → Background Worker**, connect your repo, and set the start command to `npm start`.
-3. Add the environment variables in the **Environment** tab: `DISCORD_TOKEN` and `CLIENT_ID`.
-4. Deploy.
+### Prerequisites
+
+- [Install the Fly CLI](https://fly.io/docs/hands-on/install-flyctl/)
+- A Fly.io account (`fly auth signup` or `fly auth login`)
+
+### Deploy
+
+```bash
+# First time only — creates the app on Fly.io
+fly launch --no-deploy
+
+# Set environment variables (run once)
+fly secrets set DISCORD_TOKEN=your_token_here CLIENT_ID=your_client_id_here
+
+# Deploy
+fly deploy
+```
 
 > Run `npm run deploy` locally **before** deploying to register the context menu command on Discord. This only needs to be done once.
+
+To redeploy after a code change: `fly deploy`.  
+To check logs: `fly logs`.
 
 ---
 
@@ -111,7 +126,8 @@ To keep the bot running 24/7 without your machine:
 discord-plusone/
 ├── index.js              # Bot logic
 ├── deploy-commands.js    # Registers the context menu command
-├── render.yaml           # Render deployment config
+├── Dockerfile            # Container image for Fly.io
+├── fly.toml              # Fly.io deployment config
 ├── .env.example          # Environment variable template
 ├── package.json
 └── README.md
