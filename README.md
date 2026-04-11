@@ -10,9 +10,10 @@ Use it to surface a message you agree with, found funny, or simply want others t
 
 The bot registers a **message context menu command** (no slash commands, no reactions cluttering every message). When triggered, it reposts the target message as a green embed containing:
 
-- The original author's name and avatar
+- The name and avatar of the person who clicked +1
 - The message content (and image if any)
-- The name of the person who clicked +1
+- A **+1 button** so others can endorse the same message in one click
+- A **Jump to original** button linking directly to the source message
 
 ---
 
@@ -88,12 +89,29 @@ The bot is now online. Right-click any message in your server → **Apps → +1*
 
 ---
 
+---
+
+## Hosting on Render
+
+To keep the bot running 24/7 without your machine:
+
+1. Push the project to GitHub.
+2. Go to [render.com](https://render.com) → **New → Blueprint** — Render will detect `render.yaml` automatically.  
+   Alternatively: **New → Background Worker**, connect your repo, and set the start command to `npm start`.
+3. Add the environment variables in the **Environment** tab: `DISCORD_TOKEN` and `CLIENT_ID`.
+4. Deploy.
+
+> Run `npm run deploy` locally **before** deploying to register the context menu command on Discord. This only needs to be done once.
+
+---
+
 ## Project structure
 
 ```
 discord-plusone/
 ├── index.js              # Bot logic
 ├── deploy-commands.js    # Registers the context menu command
+├── render.yaml           # Render deployment config
 ├── .env.example          # Environment variable template
 ├── package.json
 └── README.md
